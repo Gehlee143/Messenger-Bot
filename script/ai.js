@@ -20,13 +20,13 @@ module.exports.run = async function({
     api.sendMessage(`Please provide a question firt!`, event.threadID, event.messageID);
     return;
   }
-  api.sendMessage(`🖕 "${input}"🖕`, event.threadID, event.messageID);
+  api.sendMessage(` "${input}"🤔`, event.threadID, event.messageID);
   try {
     const {
       data
     } = await axios.get(`https://openaikey-x20f.onrender.com/api?prompt=${encodeURIComponent(input)}`);
     const response = data.response;
-    api.sendMessage(response, event.threadID, event.messageID);
+    api.sendMessage(response + "\n\ncredits: www.facebook.com/jasrelking17", event.threadID);
   } catch (error) {
     api.sendMessage('An error occurred while processing your request.', event.threadID, event.messageID);
   }
