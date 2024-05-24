@@ -17,7 +17,7 @@ module.exports.run = async function({
 }) {
   const input = args.join(' ');
   if (!input) {
-    api.sendMessage(`Please provide a question firt!`, event.threadID, event.messageID);
+    api.sendMessage(`𝘗𝘭𝘦𝘢𝘴𝘦 𝘱𝘳𝘰𝘷𝘪𝘥𝘦 𝘢 𝘲𝘶𝘦𝘴𝘵𝘪𝘰𝘯 𝘰𝘳 𝘵𝘰𝘱𝘪𝘤!`, event.threadID, event.messageID);
     return;
   }
   api.sendMessage(` "${input}"🤔`, event.threadID, event.messageID);
