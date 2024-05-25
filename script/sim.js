@@ -1,40 +1,39 @@
-const axios = require("axios");
+module.exports.config = {
+  name: "sim",
+  version: "1.0.0",
+  role: 0,
+  aliases: ["sim"],
+  credits: "KENLIEPLAYS",
+  description: "Talk to sim",
+	cooldown: 0,
+	hasPrefix: false
+};
 
-module.exports = {
-  config: {
-    name: "sim",
-    description: "Talk to SimSimi.",
-    usage: "sim [message]",
-    author: "Rui",
-  },
-
-  onRun: async ({ api, event, args }) => {
-    const message = args.join(" "); // Extract message text from command arguments
-
-    if (!message) {
-      api.sendMessage(
-        "Invalid command usage. Correct format: `:sim [message]`",
-        event.threadID,
-        event.messageID,
-      );
-      return;
+module.exports.run = async function({ api, event, args }) {
+  const axios = require("axios");
+  let { messageID, threadID, senderID, body } = event;
+  let tid = threadID,
+  mid = messageID;
+  const content = encodeURIComponent(args.join(" "));
+  if (!args[0]) return api.sendMessage("Please type a message...", tid, mid);
+  try {
+    const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=en&message=${content}&filter=true`);
+    const respond = res.data.success;
+    if (res.data.error) {
+      api.sendMessage(`Error: ${res.data.error}`, tid, (error, info) => {
+        if (error) {
+          console.error(error);
+        }
+      }, mid);
+    } else {
+      api.sendMessage(respond, tid, (error, info) => {
+        if (error) {
+          console.error(error);
+        }
+      }, mid);
     }
-
-    try {
-      const response = await axios.get(
-        `https://simsimi.fun/api/v2/?mode=talk&lang=en&message=${message}&filter=true`,
-      );
-      const simResponse = response.data.success
-        ? response.data.success
-        : "Sorry, I couldn't understand that.";
-      api.sendMessage(simResponse, event.threadID, event.messageID);
-    } catch (error) {
-      console.error("Error:", error);
-      api.sendMessage(
-        "An error occurred while talking to SimSimi.",
-        event.threadID,
-        event.messageID,
-      );
-    }
-  },
+  } catch (error) {
+    console.error(error);
+    api.sendMessage("An error occurred while fetching the data.", tid, mid);
+  }
 };
