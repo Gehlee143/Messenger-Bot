@@ -1,144 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FACEBOOK BOT</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-image: url("https://media4.giphy.com/media/jaOXKCxtBPLieRLI0c/giphy.gif?cid=6c09b952uys1wv9s8v4hnc7dbo339rgcjiunfvyovq9u6m5n&ep=v1_internal_gif_by_");
-      background-size: cover;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      margin: 0;
-    }
-    .intro {
-      color: blue;
-      font-size: 24px;
-      text-align: center;
-      opacity: 0;
-    }
-    .powered {
-      color: blue;
-      font-size: 14px;
-      text-align: center;
-      opacity: 0;
-    }
-    .container {
-      display: none;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-      text-align: center;
-      width: 300px;
-      border: 2px solid blue;
-      transition: width 0.3s;
-    }
-    input[type="tite"], input[type="appState"] {
-      width: calc(100% - 22px);
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 20px;
-      outline: none;
-    }
-    button {
-      width: calc(100% - 22px);
-      padding: 10px;
-      background-color: #1877f2;
-      border: none;
-      border-radius: 20px;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-    button:hover {
-      background-color: #155db1;
-    }
-    .info {
-      margin-top: 10px;
-      font-size: 14px;
-      color: #555;
-    }
-    @media (min-width: 768px) {
-      .container {
-        width: 400px;
-        border-width: 4px;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="intro" id="intro"></div>
-  <div class="powered" id="powered"></div>
-  <div class="container" id="container">
-    <h2 style="color: blue;">FACEBOOK BOT</h2>
-    <input type="tite" id="appState" placeholder="Enter App State:">
-    <input type="tite" id="prefix" placeholder="Enter Prefix:">
-    <button onclick="login()">SUBMIT</button>
-    <div class="info">
-      <span style="color: blue;">Active Sessions: </span><span id="activeSessions">0</span>
-    </div>
-  </div>
-
-  <script>
-    async function typeText(element, text, delay) {
-      for (let i = 0; i < text.length; i++) {
-        element.textContent += text.charAt(i);
-        await new Promise(resolve => setTimeout(resolve, delay));
-      }
-    }
-
-    async function animateIntro() {
-      const introText = document.getElementById('intro');
-      introText.style.opacity = '1';
-      await typeText(introText, '𝙉𝘼𝙎𝙃 𝘽𝙊𝙏', 100);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-
-      const poweredText = document.getElementById('powered');
-      poweredText.style.opacity = '1';
-      await typeText(poweredText, 'Powered by Joshua Apostol', 100);
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      poweredText.style.opacity = '0';
-
-      introText.style.opacity = '0';
-      document.getElementById('container').style.display = 'block';
-    }
-
-    animateIntro();
-
-    async function login() {
-      const appState = document.getElementById('appState').value;
-      const prefix = document.getElementById('prefix').value;
-
-      const response = await fetch('/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ appState, prefix })
-      });
-
-      if (response.ok) {
-        document.getElementById('appState').value = '';
-        alert('Login successful!');
-        updateActiveSessions();
-      } else {
-        alert('Login failed. Please check your App State JSON and try again.');
-      }
-    }
-
-    async function updateActiveSessions() {
-      const response = await fetch('/active-sessions');
-      const data = await response.json();
-      document.getElementById('activeSessions').innerText = data.activeSessions;
-    }
-  </script>
-</body>
-</html>
+   <head>
+      <title>Messenger-Bot</title>
+      <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="stylesheet" href="styles.css">
+   </head>
+   <body>
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+         <a class="navbar-brand" href="#">Home </a>
+         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+         <span class="navbar-toggler-icon"></span>
+         </button>
+         <div class="collapse navbar-collapse justify-content-end" id="navbarNav" style="margin-right: 70px;">
+            <ul class="navbar-nav">
+               <li class="nav-item active">
+                  <a class="nav-link" href="/">Home <span class="sr-only">(current)</span>
+                  </a>
+               </li>
+               <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> Features </a>
+                  <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                     <a class="dropdown-item" href="#">Cookies Extractor</a>
+                     <div class="dropdown-divider"></div>
+                     <a class="dropdown-item" href="/step_by_step_guide">Step-by-Step Guide</a>
+                  </div>
+               </li>
+               <li class="nav-item">
+                  <a class="nav-link" href="online_user">Active</a>
+               </li>
+            </ul>
+         </div>
+      </nav>
+      <div class="container">
+         <h1 class="col text-center" style="font-size: 20px; padding: 10px;">𝗔𝗣𝗦𝗧𝗔𝗧𝗘</h1>
+         <form id="json-form" onsubmit="submitForm(event)">
+            <div class="row">
+               <div class="col-md-12">
+                  <textarea id="json-data" class="form-control centered-textarea center-placeholder" placeholder=""></textarea>
+               </div>
+            </div>
+         </form>
+         <p style=" margin-top: 10px">Greetings! Begin by entering your cookie. Scroll down to carefully review our Terms and Privacy.</p>
+      </div>
+      <div class="container">
+         <h1 class="col text-center" style="font-size: 20px; padding: 10px;">Terms and Conditions and Privacy Policy</h1>
+         <p>Upon deployment or logging in, your chatbot connection remains active unless you personally access the bot's account or modify the password. This measure is in place to ensure the seamless operation and security of the chatbot.</p>
+         <p>Exercise caution and refrain from sharing your cookie with any third party. Your cookie contains sensitive information crucial to the confidentiality and security of your account and the connected chatbot.</p>
+         <p>As the service provider, we disclaim responsibility for any unauthorized account access. Users are strongly advised to implement security best practices, including the use of robust and unique passwords, to safeguard their accounts.</p>
+         <p>Accessing the bot's account may lead to a disruption in service. It is strongly recommended not to attempt to access the bot's account to maintain the continuous functionality of the chatbot.</p>
+         <p>If the chatbot is unresponsive, kindly return to this website. If issues persist, consider changing the account to ensure uninterrupted service.</p>
+         <p>We, as the service provider, disclaim responsibility for any account locking or suspension on the provided account. Users are expected to adhere to the terms of service of the hosting platform.</p>
+         <p>For added security, it is highly recommended to use dummy or disposable accounts when interacting with the chatbot.</p>
+         <p>Users are strictly prohibited from employing the chatbot for malicious activities. Violation of this rule may result in the termination of access to the chatbot and may have legal consequences.</p>
+         <div class="container" id="listOfCommands">
+            <h1 style="font-size: 16px; padding: 10px;">Please choose your commands by tapping on the respective options.</h1>
+            <button class="btn btn-primary" onclick="selectAllCommands()">Select all commands</button>
+         </div>
+         <div class="container" id="listOfCommandsEvent">
+            <h1 style="font-size: 16px; padding: 10px;">Please choose your event commands by tapping on the respective options.</h1>
+            <button class="btn btn-primary" onclick="selectAllEvents()">Select all events</button>
+         </div>
+         <div class="container" id="prefixOfCommands">
+            <h1 style="font-size: 16px; padding: 10px;">Please provide a prefix (optional). If you choose not to, entering 'non-prefix' will be considered as your input</h1>
+            <input type="text" id="inputOfPrefix">
+         </div>
+         <div class="container" id="adminOfCommands">
+            <h1 style="font-size: 16px; padding: 10px;">Please provide an uid (optional). If you choose not to, entering 'default' will be considered as your input</h1>
+            <input type="text" id="inputOfAdmin">
+         </div>
+         <label style="font-size: 14px; display: flex; align-items: center; padding: 22px;">
+         <input type="checkbox" id="agreeCheckbox" style="margin-right: 10px;"> Checking this box certifies that I have read, understood, and agreed to the Terms and Conditions. </label>
+         <div class="col text-center">
+            <button class="btn btn-primary" onclick="State()" disabled id="submitButton" style="width: 100%">Submit</button>
+         </div>
+      </div>
+      <div id="result" class="container text-center" style="display: none;"></div>
+      <div class="footer">
+         <p>Time: <span id="time"></span>
+         </p>
+         <p>Ping: <span id="ping"></span>
+         </p>
+      </div>
+      <script src="script.js"></script>
+      <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+      <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/js/all.min.js"></script>
+   </body>
+  </html>
