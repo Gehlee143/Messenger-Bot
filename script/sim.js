@@ -1,39 +1,55 @@
-module.exports.config = {
-  name: "sim",
-  version: "1.0.0",
-  role: 0,
-  aliases: ["sim"],
-  credits: "KENLIEPLAYS",
-  description: "Talk to sim",
-	cooldown: 0,
-	hasPrefix: false
-};
+const axios = require("axios");
 
-module.exports.run = async function({ api, event, args }) {
-  const axios = require("axios");
-  let { messageID, threadID, senderID, body } = event;
-  let tid = threadID,
-  mid = messageID;
-  const content = encodeURIComponent(args.join(" "));
-  if (!args[0]) return api.sendMessage("Please type a message...", tid, mid);
-  try {
-    const res = await axios.get(`https://simsimi.fun/api/v2/?mode=talk&lang=en&message=${content}&filter=true`);
-    const respond = res.data.success;
-    if (res.data.error) {
-      api.sendMessage(`Error: ${res.data.error}`, tid, (error, info) => {
-        if (error) {
-          console.error(error);
-        }
-      }, mid);
-    } else {
-      api.sendMessage(respond, tid, (error, info) => {
-        if (error) {
-          console.error(error);
-        }
-      }, mid);
-    }
+
+module.exports = {
+
+  config: {
+
+    name: "sim",
+
+    version: "1.0.1",
+
+    author: "Kaizenji",
+
+    countDown: 5,
+
+    role: 0,
+
+    shortDescription: "simsimi",
+
+    longDescription: { en: "chat with sim"},
+
+    category: "fun",
+
+    guide: "{p}sim <ask>",
+
+  },
+
+
+onStart: async function ({ api, event, args, reply }) {
+
+         try {
+
+	 let message = args.join(" ");
+
+	 if (!message) {
+
+		return api.sendMessage(`please put a message`, event.threadID, event.messageID);
+
+	 }
+
+
+	 const response = await axios.get(`https://sim-server-0xx.onrender.com/sim?query=${message}`);
+
+	 const respond = response.data.success;
+
+	 api.sendMessage(respond, event.threadID, event.messageID);
+
   } catch (error) {
-    console.error(error);
-    api.sendMessage("An error occurred while fetching the data.", tid, mid);
-  }
+
+	 console.error("An error occurred:", error);
+
+	 api.sendMessage("api error nigga", event.threadID, event.messageID);
+}
+}
 };
