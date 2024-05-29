@@ -25,7 +25,7 @@ async function processBesCommand(event, api, userMessages, userName, replyMessag
   const botName = botData[botID].name;
 
   if (input.includes('-help')) {
-    const usage = "Usage: bes [message]\n\n" +
+    const usage = "Usage: besh [message]\n\n" +
       "Description: Engages in a conversation using colloquial Filipino language with occasional grammatical errors. Adopting the persona of a best friend, it generates responses based on the given message.\n\n" +
       "Example: bes Kamusta ka na?\n\n" +
       "Note: The command uses the OpenAI GPT-3.5-turbo model to generate responses.";
