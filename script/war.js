@@ -25,7 +25,7 @@ module.exports.run = async function({ api, args, event, admin }) {
   var arraytag = [];
   arraytag.push({ id: mention });
   var a = function(a) {
-    api.sendMessage(a, uid, name, mention, arraytag, event.threadID);
+    api.sendMessage(event.threadID);
   };
   a("ginalit moko putanginamo ka walang iyakan ah bwakananginaka eh");
   setTimeout(() => {
