@@ -14,7 +14,7 @@ module.exports.config = {
 };
 
 module.exports.run = async function ({ api, event, args, admin }) {
-  const pogi = "100087196276636";
+  const pogi = "61559034243299";
    if (!pogi.includes(event.senderID))
    return api.sendMessage("Sorry baby! si Jasrel lang po pwede gumamit, pag pinilit mo masasaktan ka lang sa huli mwaa.", event.threadID, event.messageID);
   const threadList = await api.getThreadList(100, null, ["INBOX"]);
